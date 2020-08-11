@@ -1,0 +1,28 @@
+function createfigure2(X1, Y1,X2,Y2)
+%CREATEFIGURE2(X1, Y1)
+%  X1:  x 数据的矢量
+%  Y1:  y 数据的矢量
+
+%  由 MATLAB 于 03-Oct-2019 10:42:13 自动生成
+
+% 创建 figure
+figure1 = figure('InvertHardcopy','off','Color',[1 1 1],...
+    'Renderer','painters');
+
+% 创建 axes
+axes1 = axes('Parent',figure1);
+hold(axes1,'on');
+
+% 创建 plot
+plot(X1,Y1,'LineWidth',1,'Color',[0 0 1]);
+hold on;
+plot(X2,Y2,'LineWidth',1,'Color',[1 0 0]);
+% 取消以下行的注释以保留坐标轴的 X 范围
+% xlim(axes1,[1 7]);
+% 取消以下行的注释以保留坐标轴的 Y 范围
+% ylim(axes1,[-90 -30]);
+% 取消以下行的注释以保留坐标轴的 Z 范围
+% zlim(axes1,[-1 1]);
+box(axes1,'on');
+% 设置其余坐标轴属性
+set(axes1,'LineWidth',1);

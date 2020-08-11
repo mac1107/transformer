@@ -1,0 +1,458 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>detectsubbands_v5</title><meta name="generator" content="MATLAB 9.0"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-09-15"><meta name="DC.source" content="detectsubbands_v5.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="comment">%&#21152;&#20837;&#20102;&#26816;&#27979;&#31532;&#19968;&#20010;&#35856;&#25391;&#28857;&#21450;&#21453;&#35856;&#25391;&#28857;&#30340;&#31639;&#27861;&#65292;&#20197;&#27492;&#35745;&#31639;&#20986;LF1&#12289;LF2&#21450;LF3&#30340;&#20998;&#30028;&#28857;&#65292;&#38656;&#35201;&#32771;&#34385;&#21452;&#23792;&#30340;&#24773;&#20917;</span>
+</pre><pre class="codeinput"><span class="keyword">function</span> subbands=detectsubbands_v5(casename)
+</pre><pre class="codeinput">HF1stschpnt=200000; <span class="comment">%HF1&#24320;&#22987;&#25628;&#32034;&#30340;&#36215;&#22987;&#28857;</span>
+HF1endschpnt=50000; <span class="comment">%HF1&#32456;&#27490;&#25628;&#32034;&#30340;&#36215;&#22987;&#28857;</span>
+HF2stschpnt=1000000;
+HF2endschpnt=800000;
+</pre><p><img src="detectsubbands_v5_eq17467035999183504765.png" alt="$$e^{\pi i} + 1 = 0$$"></p><pre class="codeinput">HF1_index=[log10(HF1stschpnt) log10(HF1endschpnt)];
+HF2_index=[log10(HF2stschpnt) log10(HF2endschpnt)];
+
+fixedHF1leftpnt=200000; <span class="comment">%&#22914;&#26524;&#22312;&#36215;&#22987;&#28857;&#19982;&#32456;&#27490;&#28857;&#20043;&#38388;&#27809;&#26377;&#21457;&#29616;&#20108;&#20540;&#22270;&#20687;&#30340;&#38388;&#26029;&#28857;&#65292;&#21017;&#23601;&#39057;&#22495;&#30340;&#20998;&#27573;&#28857;&#22266;&#23450;&#20026;&#19968;&#20010;&#20540;</span>
+fixedHF2leftpnt=1000000;
+image=imread(strcat(<span class="string">'mm_results\'</span>,casename,<span class="string">'.tif'</span>));
+originalimage=strcat(<span class="string">'originalimage\'</span>,casename,<span class="string">'.tif'</span>);
+OImage=imread(originalimage);
+data=load(strcat(<span class="string">'data/'</span>,casename,<span class="string">'.txt'</span>));
+f=data(:,1);
+Origin=data(:,2);
+Def=data(:,3);
+mino=min(Origin);
+maxo=max(Origin);
+mind=min(Def);
+maxd=max(Def);
+min_global=min(mino,mind);
+max_global=max(maxo,maxd);
+D=max_global-min_global;
+flength=length(f);
+min_f=f(1);
+max_f=f(flength);
+frange=max_f-min_f;
+
+f_index=[log10(min_f) log10(max_f)];
+index_dif=f_index(2)-f_index(1);
+
+red=OImage(:,:,1);
+blue=OImage(:,:,3);
+Osize=size(OImage);
+imgheight=Osize(1);
+imgwidth=Osize(2);
+local_blue=zeros(1,imgwidth);
+local_red=zeros(1,imgwidth);
+<span class="keyword">for</span> i=1:imgwidth
+    <span class="keyword">for</span> j=1:imgheight
+        <span class="keyword">if</span> red(j,i)&gt;240 &amp;&amp; blue(j,i)&lt;20
+            local_blue(i)=j;
+        <span class="keyword">elseif</span> red(j,i)&lt;20 &amp;&amp; blue(j,i)&gt;240
+            local_red(i)=j;
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+indices1=find(local_blue~=0);
+indices2=find(local_red~=0);
+
+i1length=length(indices1);
+i2length=length(indices2);
+
+fstblue=indices1(1);
+lastblue=indices1(i1length);
+fstred=indices2(1);
+lastred=indices2(i2length);
+
+imgstpnt=max(fstblue,fstred);
+imgendpnt=min(lastred,lastblue);
+
+imgHF1stschpnt=ceil(imgstpnt+(HF1_index(1)-f_index(1))*(imgendpnt-imgstpnt)/index_dif);
+imgHF1endschpnt=ceil(imgstpnt+(HF1_index(2)-f_index(1))*(imgendpnt-imgstpnt)/index_dif);
+flag=0;
+flag2=0;
+<span class="keyword">for</span> i=imgHF1stschpnt:-1:imgHF1endschpnt
+    <span class="keyword">for</span> j=1:imgheight
+        <span class="keyword">if</span> image(j,i)==255
+            <span class="keyword">break</span>;
+        <span class="keyword">end</span>
+        <span class="keyword">if</span> j==imgheight &amp;&amp; image(j,i)==0
+            flag=2;
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> flag==2
+        imgHF1leftpnt=i;
+        <span class="keyword">break</span>;
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> flag==0 &amp;&amp; i==imgHF1endschpnt
+        flag2=1;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">if</span> flag2==0
+    HF1leftpnt=10^(f_index(1)+(imgHF1leftpnt-imgstpnt)*index_dif/(imgendpnt-imgstpnt));
+<span class="keyword">elseif</span> flag2==1
+    HF1leftpnt=fixedHF1leftpnt;
+<span class="keyword">end</span>
+
+imgHF2stschpnt=ceil(imgstpnt+(HF2_index(1)-f_index(1))*(imgendpnt-imgstpnt)/index_dif);
+imgHF2endschpnt=ceil(imgstpnt+(HF2_index(2)-f_index(1))*(imgendpnt-imgstpnt)/index_dif);
+
+<span class="keyword">if</span> HF2stschpnt&lt;max_f
+
+    flag=0;
+    flag2=0;
+
+    <span class="keyword">for</span> i=imgHF2stschpnt:-1:imgHF2endschpnt
+        <span class="keyword">for</span> j=1:imgheight
+            <span class="keyword">if</span> image(j,i)==255
+                <span class="keyword">break</span>;
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> j==imgheight &amp;&amp; image(j,i)==0
+                flag=2;
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+        <span class="keyword">if</span> flag==2
+            imgHF2leftpnt=i;
+            <span class="keyword">break</span>;
+        <span class="keyword">end</span>
+        <span class="keyword">if</span> flag==0 &amp;&amp; i==imgHF2endschpnt
+            flag2=1;
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span> flag2==0
+        HF2leftpnt=10^(f_index(1)+(imgHF2leftpnt-imgstpnt)*index_dif/(imgendpnt-imgstpnt));
+    <span class="keyword">elseif</span> flag2==1
+        HF2leftpnt=fixedHF2leftpnt;
+    <span class="keyword">end</span>
+<span class="keyword">else</span>
+    HF2leftpnt=fixedHF2leftpnt;
+<span class="keyword">end</span>
+
+<span class="comment">%&#25214;&#20986;origin&#30340;&#26497;&#28857;&#21644;&#38646;&#28857;</span>
+
+[pole,zero]=detectpoleandzero_v2(casename);
+
+fstpole=pole(1,1);
+fstzero=zero(1,1);
+sndzero=zero(1,2);
+
+<span class="keyword">if</span> fstzero&lt;sndzero
+    LF1rightpnt=(fstzero+f(1))/2;
+    LF2rightpnt=(fstzero+fstpole)/2;
+<span class="keyword">elseif</span> fstzero&gt;sndzero
+    LF1rightpnt=(sndzero+f(1))/2;
+    LF2rightpnt=(sndzero+fstpole)/2;
+<span class="keyword">end</span>
+
+
+
+LF1=[f(1),LF1rightpnt];
+LF2=[LF1rightpnt,LF2rightpnt];
+MF=[LF2rightpnt,HF1leftpnt];
+HF1=[HF1leftpnt,HF2leftpnt];
+HF2=[HF2leftpnt,f(flength)];
+
+subbands=[LF1;LF2;MF;HF1;HF2];
+divisionpnt=[LF1rightpnt,LF2rightpnt,HF1leftpnt,HF2leftpnt];
+
+figure(1),semilogx(f,Origin,<span class="string">'-k'</span>,<span class="string">'LineWidth'</span>,1.5);
+hold <span class="string">on</span>;
+semilogx(f,Def,<span class="string">'--k'</span>,<span class="string">'LineWidth'</span>,1.5);
+hold <span class="string">on</span>;
+plot([LF1rightpnt,LF1rightpnt],[-90,10],<span class="string">'c'</span>,<span class="string">'LineWidth'</span>,1);
+hold <span class="string">on</span>;
+plot([LF2rightpnt,LF2rightpnt],[-90,10],<span class="string">'c'</span>,<span class="string">'LineWidth'</span>,1);
+hold <span class="string">on</span>;
+plot([HF1leftpnt,HF1leftpnt],[-90,10],<span class="string">'c'</span>,<span class="string">'LineWidth'</span>,1);
+hold <span class="string">on</span>;
+plot([HF2leftpnt,HF2leftpnt],[-90,10],<span class="string">'c'</span>,<span class="string">'LineWidth'</span>,1);
+<span class="comment">% hold on;</span>
+<span class="comment">% h2=plot([1541.3,1541.3],[-100,0],':k');</span>
+<span class="comment">% hold on;</span>
+<span class="comment">% plot([13951.6,13951.6],[-100,0],':k');</span>
+<span class="comment">% hold on;</span>
+<span class="comment">% plot([171734.6,171734.6],[-100,0],':k');</span>
+<span class="comment">% hold on;</span>
+<span class="comment">% plot([999715.7,999715.7],[-100,0],':k');</span>
+<span class="comment">% hold on;</span>
+<span class="comment">% h3=plot([1427,1427],[-100,0],':m');</span>
+<span class="comment">% hold on;</span>
+<span class="comment">% plot([35110,35110],[-100,0],':m');</span>
+<span class="comment">% hold on;</span>
+<span class="comment">% plot([425178,425178],[-100,0],':m');</span>
+<span class="comment">% hold on;</span>
+<span class="comment">% plot([719685,719685],[-100,0],':m');</span>
+<span class="comment">% legend([h1,h2,h3],'&#26412;&#25991;&#25552;&#20986;&#30340;&#26041;&#27861;','Velasquez&#30340;&#26041;&#27861;','Gonzales&#30340;&#26041;&#27861;')</span>
+legend(<span class="string">'&#21442;&#32771;&#39057;&#21709;&#26354;&#32447;'</span>,<span class="string">'&#23454;&#27979;&#39057;&#21709;&#26354;&#32447;'</span>);
+xlabel(<span class="string">'f/Hz'</span>);
+ylabel(<span class="string">'&#24133;&#20540;/db'</span>);
+
+<span class="comment">%print(1, '-dtiff', strcat('originalwithdivision/',casename));</span>
+</pre><pre class="codeoutput error">&#36755;&#20837;&#21442;&#25968;&#30340;&#25968;&#30446;&#19981;&#36275;&#12290;
+
+&#20986;&#38169; detectsubbands_v5 (line 20)
+image=imread(strcat('mm_results\',casename,'.tif'));
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2016a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%%
+%加入了检测第一个谐振点及反谐振点的算法，以此计算出LF1、LF2及LF3的分界点，需要考虑双峰的情况
+%%
+function subbands=detectsubbands_v5(casename)
+HF1stschpnt=200000; %HF1开始搜索的起始点
+HF1endschpnt=50000; %HF1终止搜索的起始点
+HF2stschpnt=1000000; 
+HF2endschpnt=800000;
+%%
+% 
+% $$e^{\pi i} + 1 = 0$$
+% 
+
+
+HF1_index=[log10(HF1stschpnt) log10(HF1endschpnt)];
+HF2_index=[log10(HF2stschpnt) log10(HF2endschpnt)];
+
+fixedHF1leftpnt=200000; %如果在起始点与终止点之间没有发现二值图像的间断点，则就频域的分段点固定为一个值
+fixedHF2leftpnt=1000000;
+image=imread(strcat('mm_results\',casename,'.tif'));
+originalimage=strcat('originalimage\',casename,'.tif');
+OImage=imread(originalimage);
+data=load(strcat('data/',casename,'.txt'));
+f=data(:,1);
+Origin=data(:,2);
+Def=data(:,3);
+mino=min(Origin);
+maxo=max(Origin);
+mind=min(Def);
+maxd=max(Def);
+min_global=min(mino,mind);
+max_global=max(maxo,maxd);
+D=max_global-min_global;
+flength=length(f);
+min_f=f(1);
+max_f=f(flength);
+frange=max_f-min_f;
+
+f_index=[log10(min_f) log10(max_f)];
+index_dif=f_index(2)-f_index(1);
+
+red=OImage(:,:,1);
+blue=OImage(:,:,3);
+Osize=size(OImage);
+imgheight=Osize(1);
+imgwidth=Osize(2);
+local_blue=zeros(1,imgwidth);
+local_red=zeros(1,imgwidth);
+for i=1:imgwidth
+    for j=1:imgheight
+        if red(j,i)>240 && blue(j,i)<20
+            local_blue(i)=j;          
+        elseif red(j,i)<20 && blue(j,i)>240
+            local_red(i)=j;          
+        end
+    end
+end
+
+indices1=find(local_blue~=0);
+indices2=find(local_red~=0);
+
+i1length=length(indices1);
+i2length=length(indices2);
+
+fstblue=indices1(1);
+lastblue=indices1(i1length);
+fstred=indices2(1);
+lastred=indices2(i2length);
+
+imgstpnt=max(fstblue,fstred);
+imgendpnt=min(lastred,lastblue);
+
+imgHF1stschpnt=ceil(imgstpnt+(HF1_index(1)-f_index(1))*(imgendpnt-imgstpnt)/index_dif);
+imgHF1endschpnt=ceil(imgstpnt+(HF1_index(2)-f_index(1))*(imgendpnt-imgstpnt)/index_dif);
+flag=0;
+flag2=0;
+for i=imgHF1stschpnt:-1:imgHF1endschpnt
+    for j=1:imgheight
+        if image(j,i)==255
+            break;
+        end
+        if j==imgheight && image(j,i)==0
+            flag=2;
+        end
+    end
+    if flag==2
+        imgHF1leftpnt=i;
+        break;
+    end
+    if flag==0 && i==imgHF1endschpnt
+        flag2=1;
+    end
+end
+
+if flag2==0
+    HF1leftpnt=10^(f_index(1)+(imgHF1leftpnt-imgstpnt)*index_dif/(imgendpnt-imgstpnt));
+elseif flag2==1
+    HF1leftpnt=fixedHF1leftpnt;
+end
+
+imgHF2stschpnt=ceil(imgstpnt+(HF2_index(1)-f_index(1))*(imgendpnt-imgstpnt)/index_dif);
+imgHF2endschpnt=ceil(imgstpnt+(HF2_index(2)-f_index(1))*(imgendpnt-imgstpnt)/index_dif);
+
+if HF2stschpnt<max_f
+
+    flag=0;
+    flag2=0;
+
+    for i=imgHF2stschpnt:-1:imgHF2endschpnt
+        for j=1:imgheight
+            if image(j,i)==255
+                break;
+            end
+            if j==imgheight && image(j,i)==0
+                flag=2;
+            end
+        end
+        if flag==2
+            imgHF2leftpnt=i;
+            break;
+        end
+        if flag==0 && i==imgHF2endschpnt
+            flag2=1;
+        end
+    end
+
+    if flag2==0
+        HF2leftpnt=10^(f_index(1)+(imgHF2leftpnt-imgstpnt)*index_dif/(imgendpnt-imgstpnt));
+    elseif flag2==1
+        HF2leftpnt=fixedHF2leftpnt;
+    end
+else
+    HF2leftpnt=fixedHF2leftpnt;
+end
+
+%找出origin的极点和零点
+
+[pole,zero]=detectpoleandzero_v2(casename);
+
+fstpole=pole(1,1);
+fstzero=zero(1,1);
+sndzero=zero(1,2);
+
+if fstzero<sndzero
+    LF1rightpnt=(fstzero+f(1))/2;
+    LF2rightpnt=(fstzero+fstpole)/2;
+elseif fstzero>sndzero
+    LF1rightpnt=(sndzero+f(1))/2;
+    LF2rightpnt=(sndzero+fstpole)/2;    
+end
+
+
+
+LF1=[f(1),LF1rightpnt];
+LF2=[LF1rightpnt,LF2rightpnt];
+MF=[LF2rightpnt,HF1leftpnt];
+HF1=[HF1leftpnt,HF2leftpnt];
+HF2=[HF2leftpnt,f(flength)];
+
+subbands=[LF1;LF2;MF;HF1;HF2];
+divisionpnt=[LF1rightpnt,LF2rightpnt,HF1leftpnt,HF2leftpnt];
+
+figure(1),semilogx(f,Origin,'-k','LineWidth',1.5);
+hold on;
+semilogx(f,Def,'REPLACE_WITH_DASH_DASHk','LineWidth',1.5);
+hold on;
+plot([LF1rightpnt,LF1rightpnt],[-90,10],'c','LineWidth',1);
+hold on;
+plot([LF2rightpnt,LF2rightpnt],[-90,10],'c','LineWidth',1);
+hold on;
+plot([HF1leftpnt,HF1leftpnt],[-90,10],'c','LineWidth',1);
+hold on;
+plot([HF2leftpnt,HF2leftpnt],[-90,10],'c','LineWidth',1);
+% hold on;
+% h2=plot([1541.3,1541.3],[-100,0],':k');
+% hold on;
+% plot([13951.6,13951.6],[-100,0],':k');
+% hold on;
+% plot([171734.6,171734.6],[-100,0],':k');
+% hold on;
+% plot([999715.7,999715.7],[-100,0],':k');
+% hold on;
+% h3=plot([1427,1427],[-100,0],':m');
+% hold on;
+% plot([35110,35110],[-100,0],':m');
+% hold on;
+% plot([425178,425178],[-100,0],':m');
+% hold on;
+% plot([719685,719685],[-100,0],':m');
+% legend([h1,h2,h3],'本文提出的方法','Velasquez的方法','Gonzales的方法')
+legend('参考频响曲线','实测频响曲线');
+xlabel('f/Hz');
+ylabel('幅值/db');
+
+%print(1, '-dtiff', strcat('originalwithdivision/',casename));
+##### SOURCE END #####
+--></body></html>

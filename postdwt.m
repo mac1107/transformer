@@ -1,0 +1,21 @@
+clear all;
+close all;
+load('dwt_data.mat');
+% names=fieldnames(data);
+f1=10.^Standard_dwt(:,1);
+ori1=Standard_dwt(:,2);
+f2=10.^c1_2_33_dwt(:,1);
+ori2=c1_2_33_dwt(:,2);
+f3=10.^c1_2_47_dwt(:,1);
+ori3=c1_2_47_dwt(:,2);
+f4=10.^c1_2_94_dwt(:,1);
+ori4=c1_2_94_dwt(:,2);
+f5=10.^c1_2_220_dwt(:,1);
+ori5=c1_2_220_dwt(:,2);
+semilogx(f1,ori1);hold on;
+semilogx(f2,ori2);hold on;
+semilogx(f3,ori3);hold on;
+semilogx(f4,ori4);hold on;
+% semilogx(f5,ori5);hold on;
+
+legend('Standard','33','47','94','220');

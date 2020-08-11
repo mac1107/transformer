@@ -1,0 +1,16 @@
+clear all;
+close all;
+clc;
+data=load('E:\Standard.txt');
+reff=data(:,1);
+refmag=data(:,2);
+% crtdata=load('data/axial3r.txt');
+%crtf=data(:,1);
+%crtmag=data(:,3);
+figure(1),semilogx(reff,refmag,'b','LineWidth',1.5);
+xlabel('f/Hz');
+ylabel('·ùÖµ/db');
+axis([min(reff),max(reff)]);
+% hold on;
+% semilogx(reff,crtmag,'r','LineWidth',1.5);
+% print(1, '-dtif', strcat('originalwithdivision/',casename));
