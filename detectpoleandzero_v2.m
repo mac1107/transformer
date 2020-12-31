@@ -35,7 +35,7 @@ end
 
 flength=length(f);
 
-figure,semilogx(f,Origin);
+% figure,semilogx(f,Origin);
  
 
 

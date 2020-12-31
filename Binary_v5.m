@@ -41,3 +41,4 @@ max_global=max(max_r,max_b);
 min_global=min(min_r,min_b);
 D = max_global-min_global;
 imwrite(bimage,strcat('trans_binary_image\',casename,'.tif'),'tif');
+% close;

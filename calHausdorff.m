@@ -1,4 +1,4 @@
-function hauspara= calHausdorff(data,casename)
+function [hauspara,subbands]= calHausdorff(data,casename)
 %CALHAUSDORFF 此处显示有关此函数的摘要
 %   此处显示详细说明
 subbands=detectsubbands_v5(data,casename);
@@ -8,11 +8,12 @@ for i=1:size(subbands,1)
     para=cal(data,casename,subbands(i,1),subbands(i,2));
     hauspara=[hauspara para];
 end
+save(strcat('hausresult\',casename,'.mat'),'hauspara');
 end
 
 function para=cal(data,casename,bound1,bound2)
 casedata=getfield(data,casename);
-[f,Ref,Measured,~,~,~,~,~,~,~,~,~,~,~,~]=getinformation(casedata);
+[f,Ref,Measured,~,~,~,~,min_global,max_global,~,~,~,~,~,~]=getinformation(casedata);
 %% h1
 h1=0;
 for i=1:size(f)
@@ -24,6 +25,7 @@ for i=1:size(f)
     else
         for j=1:size(f)
             minimum=min(sqrt((log10(f(i))-log10(f(j)))^2+(Ref(i)-Measured(j))^2),minimum);
+            %             minimum=min(sqrt((f(i)-f(j))^2+(Ref(i)-Measured(j))^2),minimum);
         end
     end
     h1=max(h1,minimum);
@@ -39,10 +41,12 @@ for i=1:size(f)
     else
         for j=1:size(f)
             minimum=min(sqrt((log10(f(i))-log10(f(j)))^2+(Measured(i)-Ref(j))^2),minimum);
+            %             minimum=min(sqrt((f(i)-f(j))^2+(Ref(i)-Measured(j))^2),minimum);
         end
     end
     h2=max(h2,minimum);
 end
+% para=max(h1,h2)/(max_global-min_global);
 para=max(h1,h2);
 end
 

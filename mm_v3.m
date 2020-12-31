@@ -2,7 +2,8 @@ function mm_v3(data,casename)
 casedata=getfield(data,casename);
 [f,Ref,Measured1,minRef,maxRef,minMeasured,maxMeasured,min_global,max_global,D,flength,min_f,max_f]=getinformation(casedata);
 
-figure(1),semilogx(f,Ref,'b','LineWidth',1.5);
+h=figure(1);
+semilogx(f,Ref,'b','LineWidth',1.5);
 hold on;
 set(gca, 'Fontname', 'Times', 'Fontsize', 12);
 semilogx(f,Measured1,'-r','LineWidth',1.5);
@@ -11,6 +12,7 @@ semilogx(f,Measured1,'-r','LineWidth',1.5);
 % legend('Reference FR Curve','Measurement FR Curve');
 set(gcf,'PaperUnits','inches','PaperPosition',[0 0 12 9])
 print(1, '-dtiff',strcat('originalimage/',casename),'-r100');
+close(h);
 % print(1, '-dpng',strcat('originalimage/',casename));
 %%%% call fun to get binary image
 B_image=Binary_v5(casename);
@@ -77,5 +79,5 @@ erodeImage=[erodeImage B_image(:,(imgsppnt(i)+1):size(B_image,2))];
 save(strcat('mm_results\',casename,'.mat'),'erodeImage');
 
 imwrite(erodeImage,strcat('mm_results\',casename,'.tif'),'tif');
-close;
+% close;
 end

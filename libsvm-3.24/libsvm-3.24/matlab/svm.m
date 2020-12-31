@@ -68,6 +68,24 @@ while feof(fpn1)~=1%ÓÃÓÚÅÐ¶ÏÎÄ¼þÖ¸ÕëpÔÚÆäËùÖ¸µÄÎÄ¼þÖÐµÄÎ»ÖÃ£¬Èç¹ûµ½ÎÄ¼þÄ©£¬º¯Êý·
         fprintf(fid4,'%s\n',new_str2);
     end
 end
+phns1='haus4.txt';%Òª¶ÁÈ¡µÄÎÄµµËùÔÚµÄÂ·¾¶??
+phns2='asp4.txt';
+fpn1=fopen(phns1,'rt'); %´ò¿ªÎÄµµ??
+fpn2=fopen(phns2,'rt'); 
+while feof(fpn1)~=1%ÓÃÓÚÅÐ¶ÏÎÄ¼þÖ¸ÕëpÔÚÆäËùÖ¸µÄÎÄ¼þÖÐµÄÎ»ÖÃ£¬Èç¹ûµ½ÎÄ¼þÄ©£¬º¯Êý·µ»Ø1£¬·ñÔò·µ»Ø0??
+    file1=fgetl(fpn1);%»ñÈ¡ÎÄµµµÚÒ»ÐÐ?? ? ? ? ? ? ? ? ? ? ? ? ?
+    file2=fgetl(fpn2);
+    new_str1=file1;
+    new_str2=file2;
+    r=rand();
+    if r>0.5
+        fprintf(fid1,'%s\n',new_str1);
+        fprintf(fid3,'%s\n',new_str2);
+    else
+        fprintf(fid2,'%s\n',new_str1);
+        fprintf(fid4,'%s\n',new_str2);
+    end
+end
 fclose(fid1);
 fclose(fid2);
 %%
@@ -86,13 +104,13 @@ fclose(fid2);
 % testinput=testinput';
 % [bestacc,bestc,bestg] = SVMcg(label,input,-20,20,-20,20,3,0.5,0.5,0.9);
 % cmd = ['-c ',num2str(bestc),' -g ',num2str(bestg)];
-model=svmtrain(label,input,'-t 0 -c 1');
+model=svmtrain(label,input,'-t 0 -c 100');
 % model=svmtrain(label,input,cmd);
 [predict_label,accuracy,d]=svmpredict(testlabel,testinput,model);
 % acch=accuracy(1);
 [label,input] = libsvmread('trainasp1.txt');
 [testlabel,testinput] = libsvmread('trainasp2.txt');
-model=svmtrain(label,input,'-t 0 -c 1');
+model=svmtrain(label,input,'-t 0 -c 50');
 [predict_label,accuracy,d]=svmpredict(testlabel,testinput,model);
 % acca=accuracy(1);
 % end

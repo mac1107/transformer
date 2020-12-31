@@ -616,9 +616,9 @@ ASPDist=[];
 for i=1:5
     ASPDist=[ASPDist;AS1PDist(i),AS2PDist(i),AS3PDist(i),AS4PDist(i)];
 end
-
+save(strcat('aspresult\',casename,'.mat'),'ASPDist');
 ASPDist=reshape(ASPDist,1,20);
-close all;
+% close all;
 end
 
 

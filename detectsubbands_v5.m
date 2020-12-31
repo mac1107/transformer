@@ -60,10 +60,11 @@ imgHF1stschpnt=ceil(imgstpnt+(HF1_index(1)-f_index(1))*(imgendpnt-imgstpnt)/inde
 imgHF1endschpnt=ceil(imgstpnt+(HF1_index(2)-f_index(1))*(imgendpnt-imgstpnt)/index_dif);
 flag=0;
 flag2=0;
-semilogx(f,Ref,'--k','LineWidth',1.5);
-hold on;
-semilogx(f,Measured,'-k','LineWidth',1.5);
-hold on;
+% 
+% semilogx(f,Ref,'--k','LineWidth',1.5);
+% hold on;
+% semilogx(f,Measured,'-k','LineWidth',1.5);
+% hold on;
 
 for i=imgHF1stschpnt:-1:imgHF1endschpnt
     for j=1:imgheight
@@ -152,10 +153,11 @@ HF2=[HF2leftpnt,f(flength)];
 subbands=[LF1;LF2;MF;HF1;HF2];
 divisionpnt=[LF1rightpnt,LF2rightpnt,HF1leftpnt,HF2leftpnt];
 
-figure(1);
+save(strcat('originalwithdivision\',casename,'.mat'),'divisionpnt');
 
 %% magnitude
 % subplot(2,1,1);
+h=figure(1);
 semilogx(f,Ref,'--k','LineWidth',1.5);
 hold on;
 semilogx(f,Measured,'-k','LineWidth',1.5);
@@ -209,3 +211,4 @@ ylabel('·ùÖµ/db');
 
 set(gcf,'PaperUnits','inches','PaperPosition',[0 0 12 9])
 print(1, '-dtiff', strcat('originalwithdivision/',casename),'-r100');
+close(h);
